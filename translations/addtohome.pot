@@ -1,0 +1,165 @@
+# $Id$
+#
+# LANGUAGE translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  addtohome.module: n/a
+#  addtohome.info: n/a
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2014-07-18 15:46+0300\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: addtohome.module:7
+msgid "Create some features related to mobile phones"
+msgstr ""
+
+#: addtohome.module:30 addtohome.info:0
+msgid "Add to home screen"
+msgstr ""
+
+#: addtohome.module:49
+msgid "Name of application"
+msgstr ""
+
+#: addtohome.module:54
+msgid "The name of application which user will see by default, but will can to change (max 11 letters)"
+msgstr ""
+
+#: addtohome.module:59
+msgid "IOS settings"
+msgstr ""
+
+#: addtohome.module:67
+msgid "absolute maximum number of times the message will be shown to the user"
+msgstr ""
+
+#: addtohome.module:71
+msgid "0: no limit"
+msgstr ""
+
+#: addtohome.module:77
+msgid "Forbid actions before user closes window"
+msgstr ""
+
+#: addtohome.module:84
+msgid "Doesn't show window first time, only second"
+msgstr ""
+
+#: addtohome.module:86
+msgid "By default user sees window when enter the site first time"
+msgstr ""
+
+#: addtohome.module:91
+msgid "Display the message after that many seconds from page load"
+msgstr ""
+
+#: addtohome.module:99
+msgid "How many seconds window lives if user doesn't close it"
+msgstr ""
+
+#: addtohome.module:107
+msgid "Minutes before the message is shown again"
+msgstr ""
+
+#: addtohome.module:111
+msgid "0: display every time, default 24 hours"
+msgstr ""
+
+#: addtohome.module:116;227
+msgid "Message to appear"
+msgstr ""
+
+#: addtohome.module:117
+msgid "you can add a bookmark to you home screen"
+msgstr ""
+
+#: addtohome.module:120
+msgid "What will user see on this tooltip (max 60 letters"
+msgstr ""
+
+#: addtohome.module:127
+msgid "Try to detect if the site has been added to the homescreen"
+msgstr ""
+
+#: addtohome.module:132;242
+msgid "An icon which user will see in message"
+msgstr ""
+
+#: addtohome.module:138;159;181;203;248
+msgid "Current icon"
+msgstr ""
+
+#: addtohome.module:142;163;185;211;256
+msgid "Delete this icon"
+msgstr ""
+
+#: addtohome.module:152
+msgid "Ipad icon"
+msgstr ""
+
+#: addtohome.module:174
+msgid "Iphone retina"
+msgstr ""
+
+#: addtohome.module:196
+msgid "Ipad retina"
+msgstr ""
+
+#: addtohome.module:220
+msgid "Android settings"
+msgstr ""
+
+#: addtohome.module:228
+msgid "Install our application from android playmarket"
+msgstr ""
+
+#: addtohome.module:234
+msgid "Link to android playmarket"
+msgstr ""
+
+#: addtohome.module:269
+msgid "Module settings"
+msgstr ""
+
+#: addtohome.module:408
+msgid "You have entered an incorrect link"
+msgstr ""
+
+#: addtohome.module:446
+msgid "You can add a bookmark to you home screen."
+msgstr ""
+
+#: addtohome.module:448
+msgid "Install our application from Android Play market"
+msgstr ""
+
+#: addtohome.module:465
+msgid "You have entered not a integer"
+msgstr ""
+
+#: addtohome.module:471
+msgid "You have entered negative number"
+msgstr ""
+
+#: addtohome.module:16
+msgid "access addtohome content"
+msgstr ""
+
+#: addtohome.module:270
+msgid "description"
+msgstr ""
+
+#: addtohome.info:0
+msgid "Add some features to mobile version of site. Creates a tooltip for IOS Safari in order to add a bookmark on desktop and provides a link to Android application on Android"
+msgstr ""
+
