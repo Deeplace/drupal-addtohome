@@ -1,260 +1,271 @@
 <?php
-	//display help and module information
+	/**
+	* display help addtohome_and module information
+	*/
 	function addtohome_help($path,$arg){
 		$output = '';
 		switch($path){
 			case "admin/help#addtohome":
-				$output = '<p>'.t("Create some features related to mobile phones").'</p>';
+				$output = '<p>'.t("Create a too").'</p>'; //fixme
 			break;
 		}
 		return $output;
 	}
 
-
-	//giving permissions
-	function addtohome_perm(){
-		return array('access addtohome content');
-	}
-
 	/**
-	* Implementation of hook_block().
- 	* @param string $op one of "list", "view", "save" and "configure"
- 	* @param integer $delta code to identify the block
- 	* @param array $edit only for "save" operation
+		giving permissions
 	*/
-
-	function addtohome_block($op = 'list',$delta = 0, $edit = array()){
-		$block = array();
-		switch ($op) {
-			case 'list':
-				$block[0]["info"] = t("Add to home screen"); 
-				break;
-			case 'view':
-				break;
-			case 'save':
-				break;
-			case 'configure':
-				break;
-		}
-		return $block;
+	function addtohome_perm(){
+		return array('administer addtohome settings'); 
 	}
+
 
 	function addtohome_admin(){
 		//array of file fids in order to use it in gettinf file's object
-		$file_fids = variable_get('mobilesupport_icons',NULL);
-		
+		$file_fids = variable_get('addtohome_icons', array( 
+	      'addtohome_ios_icon'          => NULL,
+	      'addtohome_ios_iphone_retina' => NULL,
+	      'addtohome_ios_ipad_icon'     => NULL,
+	      'addtohome_ios_ipad_retina'   => NULL,
+	      'addtohome_andr_icon'         => NULL,
+    	));
 		$form = array();
-		$form['app_name'] = array(
-			'#type' => 'textfield',
-			'#title'=>t("Name of application"),
-			'#default_value'=>variable_get('app_name','Application'),
-			'#size'=>13,
-			'#weight'=>1,
-			'#max_length'=>11,
-			'#description' => t("The name of application which user will see by default, but will can to change (max 11 letters)"),
+		$form['addtohome_app_name'] = array(
+			'#type'           => 'textfield',
+			'#title'          => t('Application name'),
+			'#default_value'  => variable_get('addtohome_app_name','Application'),
+			'#size'           => 13,
+			'#weight'         => 1,
+			'#max_length'     => 11,
+			'#description'    => t('The name of application which user will see by default. It can be changed (max 11 letters)'), //FIXME gramatica
 			'#required'=>TRUE,
 		);
-		$form['ios']=array(
-			'#type'=>'fieldset',
-			'#title'=>t('IOS settings'),
-			'#weight'=>5,
-			'#collapsible'=>TRUE,
-			'#collapsed'=>FALSE,
+		$form['addtohome_ios']=array(
+			'#type'      	=> 'fieldset',
+			'#title'	 	=> t('Ios settings'),
+			'#weight'		=> 5,
+			'#collapsible'	=> TRUE,
+			'#collapsed'	=> FALSE,
 		);
 			
-			$form['ios']['display_times'] = array(
-				'#type' => 'textfield',
-				'#title'=>t("absolute maximum number of times the message will be shown to the user"),
-				'#default_value'=>variable_get('display_times',0),
-				'#size'=>13,
-				'#max_length'=>10,
-				'#description' => t("0: no limit"),
-				'#required'=>TRUE,
+			$form['addtohome_ios']['addtohome_display_times'] = array(
+				'#type' 			=> 'textfield',
+				'#title'			=> t('Absolute maximum number of times the message will be shown to the user'),
+				'#default_value'	=> variable_get('addtohome_display_times',0), 
+				'#size'				=> 13,
+				'#max_length'		=> 10,
+				'#element_validate'	=> array('addtohome_check_num'),
+				'#description' 		=> t("0: no limit"),
+				'#required'			=> TRUE,
 
 			);
-			$form['ios']['actions'] = array(
-				'#type' => 'checkbox',
-				'#title'=>t("Forbid actions before user closes window"),
-				'#default_value'=>variable_get('actions',0),
-				'#description' => t(""),
-				'#required'=>TRUE,
+			$form['addtohome_ios']['addtohome_actions'] = array(
+				'#type' 		=> 'checkbox',
+				'#title'		=> t('Forbid actions'),
+				'#default_value'=> variable_get('addtohome_actions',0),
+				'#description' 	=> t('Forbid any actions before user closes window'), 
+				'#required'		=> TRUE,
 			);
-			$form['ios']['second_time'] = array(
-				'#type' => 'checkbox',
-				'#title'=>t("Doesn't show window first time, only second"),
-				'#default_value'=>variable_get('second_time',0),
-				'#description' => t("By default user sees window when enter the site first time"),
-				'#required'=>TRUE,
+			$form['addtohome_ios']['addtohome_second_time'] = array(
+				'#type' 		=> 'checkbox',
+				'#title'		=> t('Show window on second page load'),
+				'#default_value'=> variable_get('addtohome_second_time',0),
+				'#description' 	=> t('By default user sees window when enter the site first time'),
+				'#required'		=> TRUE,
 			);
-			$form['ios']['show_after'] = array(
-				'#type' => 'textfield',
-				'#title'=>t("Display the message after that many seconds from page load"),
-				'#default_value'=>variable_get('show_after',1),
-				'#size'=>13,
-				'#max_length'=>10,
-				'#required'=>TRUE,
+			$form['addtohome_ios']['addtohome_show_after'] = array(
+				'#type' 			=> 'textfield',
+				'#title'			=> t("Delay before message will appear"),
+				'#default_value'	=> variable_get('addtohome_show_after',1),
+				'#size'				=> 13,
+				'#max_length'		=> 10,
+				'#required'			=> TRUE,
+				'#element_validate'	=> array('addtohome_check_num'),
 			);
-			$form['ios']['lifespan'] = array(
-				'#type' => 'textfield',
-				'#title'=>t("How many seconds window lives if user doesn't close it"),
-				'#default_value'=>variable_get('lifespan',20),
-				'#size'=>13,
-				'#max_length'=>10,
-				'#required'=>TRUE,
+			$form['addtohome_ios']['addtohome_lifespan'] = array(
+				'#type' 			=> 'textfield',
+				'#title'			=> t('How many seconds window lives if user doesn\'t close it'),
+				'#default_value'	=> variable_get('addtohome_lifespan',20),
+				'#size'				=> 13,
+				'#max_length'		=> 10,
+				'#required'			=> TRUE,
+				'#element_validate'	=> array('addtohome_check_num'),
 			);
-			$form['ios']['display_pace'] = array(
-				'#type' => 'textfield',
-				'#title'=>t("Minutes before the message is shown again"),
-				'#default_value'=>variable_get('display_pace',1440),
-				'#size'=>13,
-				'#max_length'=>10,
-				'#description' => t("0: display every time, default 24 hours"),
-				'#required'=>TRUE,
+			$form['addtohome_ios']['addtohome_display_pace'] = array(
+				'#type' 			=> 'textfield',
+				'#title'			=> t('Minutes before the message is shown again'),
+				'#default_value'	=> variable_get('addtohome_display_pace',1440),
+				'#size'				=> 13,
+				'#max_length'		=> 10,
+				'#description' 		=> t('0: display every time, default 24 hours'),
+				'#required'			=> TRUE,
+				'#element_validate'	=> array('addtohome_check_num'),
 			);
-			$form['ios']['message'] = array(
-				'#type' => 'textfield',
-				'#title'=>t("Message to appear"),
-				'#default_value'=>variable_get('message',t("you can add a bookmark to you home screen")),
-				'#size'=>60,
-				'#max_length'=>60,
-				'#description' => t("What will user see on this tooltip (max 60 letters)"),
-				'#required'=>TRUE,
+			$form['addtohome_ios']['addtohome_message'] = array(
+				'#type' 		=> 'textfield',
+				'#title'		=> t('Message'),
+				'#default_value'=> variable_get('addtohome_message',t('you can add a bookmark to you home screen')),
+				'#size'			=> 60,
+				'#max_length'	=> 60,
+				'#description' 	=> t('What will user see on this tooltip (max 60 letters)'),
+				'#required'		=> TRUE,
 
 
 			);
-			$form['ios']['detect'] = array(
-				'#type' => 'checkbox',
-				'#title'=>t("Try to detect if the site has been added to the homescreen"),
-				'#default_value'=>variable_get('detect',0),
+			$form['addtohome_ios']['addtohome_detect'] = array(
+				'#type' 			=> 'checkbox',
+        		'#title' 			=> t('Detect bookmark on homescreen'),
+				'#description'		=> t('Try to detect if the site has been added to the homescreen'), 
+				'#default_value'	=> variable_get('addtohome_detect',0), //FIXME
 			);
-			$form['ios']['ios_icon']=array(
+			$form['addtohome_ios']['addtohome_ios_icon']=array(
 				'#type' => 'file',
-				'#title'=>t("An icon which user will see in message"),
+				'#title'=> t('An icon which user will see in messag'),
 			);
 			//if file was uploaded
-			if ($file_fids['ios_icon']){
-				$file = _get_file_path($file_fids['ios_icon']);
-				$form['ios']['ios_icon_link'] = array(
-					'#value' => l(t('Current icon'), file_create_url($file->filepath),array('attributes'=>array('target'=>'_blank','external'=>TRUE))),
+			if ($file_fids['addtohome_ios_icon']){
+				$file = _get_file_path($file_fids['addtohome_ios_icon']);
+				$form['addtohome_ios']['addtohome_ios_icon_link'] = array(
+					'#value' => l(	t('Current icon'), 
+									file_create_url($file->filepath),
+									array('attributes'=> array('target'=> '_blank','external'=> TRUE))
+								),
 				);
-				$form['ios']['delete_ios_icon']=array(
-					'#type' => 'checkbox',
-					'#title'=>t("Delete this icon"),
-					'#default_value'=>variable_get('delete_ios_icon',0),
+				$form['addtohome_ios']['delete_addtohome_ios_icon']=array(
+					'#type' 		=> 'checkbox',
+					'#title'		=> t("Delete this icon"),
+					'#default_value'=> variable_get('delete_addtohome_ios_icon',0),
 				);
 				if(module_exists("imagecache")){
-					$form['ios']['ios_icon']['#suffix'] = '<div>' . theme('imagecache', 'thumbnail', $file->filepath) . '</div>';
+					$form['addtohome_ios']['addtohome_ios_icon']['#suffix'] = '<div>' . theme('imagecache', 'thumbnail', $file->filepath) . '</div>';
 				}
 			}
 			
-			$form['ios']['ios_ipad_icon']=array(
-				'#type' => 'file',
-				'#title'=>t("Ipad icon"),
-				'#description' => "76x76",
+			$form['addtohome_ios']['addtohome_ios_ipad_icon']=array(
+				'#type' 		=> 'file',
+				'#title'		=> t("Ipad icon"),
+				'#description' 	=> '76x76',
 			);
 			//if file was uploaded
-			if ($file_fids['ios_ipad_icon']){
-				$file = _get_file_path($file_fids['ios_ipad_icon']);
-				$form['ios']['ios_ipad_icon_link'] = array(
-					'#value' => l(t('Current icon'), file_create_url($file->filepath),array('attributes'=>array('target'=>'_blank','external'=>TRUE))),
+			if ($file_fids['addtohome_ios_ipad_icon']){
+				$file = _get_file_path($file_fids['addtohome_ios_ipad_icon']);
+				$form['addtohome_ios']['addtohome_ios_ipad_icon_link'] = array(
+					'#value' => l(	t('Current icon'), 
+                					file_create_url($file->filepath),
+                					array('attributes'=>array('target' => '_blank', 'external' => TRUE))
+                				),
 				);
-				$form['ios']['delete_ios_ipad_icon']=array(
-					'#type' => 'checkbox',
-					'#title'=>t("Delete this icon"),
-					'#default_value'=>variable_get('delete_ios_ipad_icon',0),
+				$form['addtohome_ios']['delete_addtohome_ios_ipad_icon']=array(
+					'#type' 		=> 'checkbox',
+					'#title'		=> t("Delete this icon"),
+					'#default_value'=> variable_get('delete_addtohome_ios_ipad_icon',0),
 				);
 				if(module_exists("imagecache")){
-					$form['ios']['ios_ipad_icon']['#suffix'] = '<div>' . theme('imagecache', 'thumbnail', $file->filepath) . '</div>';
+					$form['addtohome_ios']['addtohome_ios_ipad_icon']['#suffix'] = '<div>' . theme('imagecache', 'thumbnail', $file->filepath) . '</div>';
 				}
 			}
 
 
-			$form['ios']['ios_iphone_retina']=array(
-				'#type' => 'file',
-				'#title'=>t("Iphone retina"),
-				'#description' => "120x120",
+			$form['addtohome_ios']['addtohome_ios_iphone_retina']=array(
+				'#type' 		=> 'file',
+				'#title'		=> t('iPhone retina icon'),
+				'#description' 	=> '120x120',
 			);
 			//if file was uploaded
-			if ($file_fids['ios_iphone_retina']){
-				$file = _get_file_path($file_fids['ios_iphone_retina']);
-				$form['ios']['ios_iphone_retina_link'] = array(
-					'#value' => l(t('Current icon'), file_create_url($file->filepath),array('attributes'=>array('target'=>'_blank','external'=>TRUE))),
+			if ($file_fids['addtohome_ios_iphone_retina']){
+				$file = _get_file_path($file_fids['addtohome_ios_iphone_retina']);
+				$form['addtohome_ios']['addtohome_ios_iphone_retina_link'] = array(
+					'#value' => l(	t('Current icon'), 
+									file_create_url($file->filepath),
+									array('attributes'=>array('target'=>'_blank','external'=>TRUE))
+								),
 				);
-				$form['ios']['delete_ios_iphone_retina']=array(
+				$form['addtohome_ios']['delete_addtohome_ios_iphone_retina']=array(
 					'#type' => 'checkbox',
 					'#title'=>t("Delete this icon"),
-					'#default_value'=>variable_get('delete_ios_iphone_retina',0),
+					'#default_value'=>variable_get('delete_addtohome_ios_iphone_retina',0),
 				);
 				if(module_exists("imagecache")){
-					$form['ios']['ios_iphone_retina']['#suffix'] = '<div>' . theme('imagecache', 'thumbnail', $file->filepath) . '</div>';
+					$form['addtohome_ios']['addtohome_ios_iphone_retina']['#suffix'] = '<div>' . theme('imagecache', 'thumbnail', $file->filepath) . '</div>';
 				}
 			}
 
 
-			$form['ios']['ios_ipad_retina']=array(
+			$form['addtohome_ios']['addtohome_ios_ipad_retina']=array(
 				'#type' => 'file',
 				'#title'=>t("Ipad retina"),
 				'#description' => "152x152",
 			);
 			//if file was uploaded
-			if ($file_fids['ios_ipad_retina']){
-				$file = _get_file_path($file_fids['ios_ipad_retina']);
-				$form['ios']['ios_ipad_retina_link'] = array(
+			if ($file_fids['addtohome_ios_ipad_retina']){
+				$file = _get_file_path($file_fids['addtohome_ios_ipad_retina']);
+				$form['addtohome_ios']['addtohome_ios_ipad_retina_link'] = array(
 					'#value' => l(t('Current icon'), file_create_url($file->filepath),array('attributes'=>array('target'=>'_blank','external'=>TRUE))),
 				);
 				
 				if(module_exists("imagecache")){
-					$form['ios']['ios_ipad_retina']['#suffix'] = '<div>' . theme('imagecache', 'thumbnail', $file->filepath) . '</div>';
+					$form['addtohome_ios']['addtohome_ios_ipad_retina']['#suffix'] = '<div>' . theme('imagecache', 'thumbnail', $file->filepath) . '</div>';
 				}
-				$form['ios']['delete_ios_ipad_retina']=array(
-					'#type' => 'checkbox',
-					'#title'=>t("Delete this icon"),
-					'#default_value'=>variable_get('delete_ios_ipad_retina',0),
+				$form['addtohome_ios']['delete_addtohome_ios_ipad_retina']=array(
+					'#type' 		=> 'checkbox',
+					'#title'		=>t('Delete this icon'),
+					'#default_value'=>variable_get('delete_addtohome_ios_ipad_retina',0),
 				);
 			}
 
 
-
-		$form['android']=array(
-			'#type'=>'fieldset',
-			'#title'=>t('Android settings'),
-			'#weight'=>4,
-			'#collapsible'=>TRUE,
-			'#collapsed'=>FALSE,
+		$form['addtohome_ios_use_msgbox']=array(
+			'#type'    		=> 'checkbox',
+			'#weight'		=> 4,
+			'#title'		=> t('Make analogous message for addtohome_ios as in Android'),
+			'#default_value'=> variable_get('addtohome_ios_use_msgbox',0),
+			'#description' 	=> t('By default the tooltip points to a button of adding bookmark in IOS'),
 		);
-			$form['android']['andr_message']=array(
-				'#type' => 'textfield',
-				'#title'=>t("Message to appear"),
-				'#default_value'=>variable_get('andr_message',t("Install our application from Android Playmarket")),
-				'#size'=>60,
-				'#max_length'=>60,
+
+		$form['addtohome_android']=array(
+			'#type'  		=> 'fieldset',
+			'#title'		=> t('Android settings'),
+			'#weight'		=> 3,
+			'#collapsible'	=> TRUE,
+			'#collapsed'	=> FALSE,
+		);
+			$form['addtohome_android']['addtohome_andr_message']=array( //FIXME utilizeaza addtohome_android in loc de addtohome_andr
+				'#type' 		=> 'textfield',
+				'#title'		=> t("Message to appear"),
+				'#default_value'=> variable_get('addtohome_andr_message',t('Install our application from Google Play')), 
+				'#size'			=> 60,
+				'#max_length'	=> 60,
 			);
-			$form['android']['andr_link']=array(
-				'#type' => 'textfield',
-				'#title'=>t("Link to Android Playmarket"),
-				'#default_value'=>variable_get('andr_link',"http://"),
-				'#size'=>60,
-				'#max_length'=>60,
+			$form['addtohome_android']['addtohome_andr_link']=array(
+				'#type' 		=>'textfield',
+				'#title'		=> t('Link to Google Play'), 
+				'#default_value'=> variable_get('addtohome_andr_link','https://play.google.com/store/apps/details?id=deeplace.md'),
+				'#size'			=> 60,
+				'#max_length'	=> 60,
 
 			);
-			$form['android']['and_icon']=array(
+			$form['addtohome_android']['addtohome_andr_icon']=array( 
 				'#type' => 'file',
-				'#title'=>t("An icon which user will see in message"),
+				'#title'=> t('An icon which user will see in message'),
 			);
 			//if file was uploaded
-			if ($file_fids['and_icon']){
-				$file = _get_file_path($file_fids['and_icon']);
-				$form['android']['and_icon_link'] = array(
-					'#value' => l(t('Current icon'), file_create_url($file->filepath),array('attributes'=>array('target'=>'_blank','external'=>TRUE))),
+			if ($file_fids['addtohome_andr_icon']){
+
+				$file = _get_file_path($file_fids['addtohome_andr_icon']);
+				$form['addtohome_android']['addtohome_andr_icon_link'] = array(
+					'#value' => l(	t('Current icon'), 
+									file_create_url($file->filepath),
+									array('attributes'=>array('target'=>'_blank','external'=>TRUE))
+								),
 				);
 				
 				if(module_exists("imagecache")){
-					$form['android']['and_icon']['#suffix'] = '<div>' . theme('imagecache', 'thumbnail', $file->filepath) . '</div>';
+					$form['addtohome_android']['addtohome_andr_icon']['#suffix'] = '<div>' . theme('imagecache', 'thumbnail', $file->filepath) . '</div>';
 				}
-				$form['android']['delete_and_icon']=array(
-					'#type' => 'checkbox',
-					'#title'=>t("Delete this icon"),
-					'#default_value'=>variable_get('delete_and_icon',0),
+				$form['addtohome_android']['delete_addtohome_andr_icon']=array(
+					'#type' 		=> 'checkbox',
+					'#title'		=> t('Delete this icon'),
+					'#default_value'=> variable_get('delete_addtohome_andr_icon',0),
 				);
 			}
 		$form['#attributes'] = array('enctype' => "multipart/form-data");
@@ -266,12 +277,12 @@
 function addtohome_menu(){
 	$items = array();
 	$items['admin/settings/addtohome'] = array(
-		'title' => t('Module settings'),
-		'description' => 'description',
-		'page callback' =>'drupal_get_form',
-		'page arguments' => array('addtohome_admin'),
-		'access arguments' => array('administer addtohome settings'),
-		'type'=> MENU_NORMAL_ITEM,
+		'title' 			=> 'addToHome module', //fixme
+		'description' 		=> 'Module creates a tooltip for mobile bookmarks', //fixme
+		'page callback' 	=> 'drupal_get_form',
+		'page arguments' 	=> array('addtohome_admin'),
+		'access arguments' 	=> array('administer addtohome settings'), 
+		'type'				=> MENU_NORMAL_ITEM,
 
 	);
 	return $items;
@@ -279,139 +290,131 @@ function addtohome_menu(){
 
 function addtohome_admin_validate($form, &$form_state){
 	// file_save_upload
-	$name_dir = "mobilesupport";
+	$name_dir = "addtohome";  
 	$dir = file_directory_path() . DIRECTORY_SEPARATOR . $name_dir;
 		
-	$file_fids = variable_get('mobilesupport_icons', array());
+	$file_fids = variable_get('addtohome_icons', array(
+    	'addtohome_ios_icon'          => NULL,
+	    'addtohome_ios_iphone_retina' => NULL,
+	    'addtohome_ios_ipad_icon'     => NULL,
+	    'addtohome_ios_ipad_retina'   => NULL,
+	    'addtohome_andr_icon'         => NULL,
+    ));
 	
 	if(file_check_directory($dir, FILE_CREATE_DIRECTORY)){
 		
 		//delete file according to user request
-		if($form_state['values']['delete_ios_icon']==1 && $file_fids['ios_icon']){
-			$filepath =  _get_file_path($file_fids['ios_icon'])->filepath;
+		if($form_state['values']['delete_addtohome_ios_icon'] == 1 && $file_fids['addtohome_ios_icon']){
+			$filepath =  _get_file_path($file_fids['addtohome_ios_icon'])->filepath;
 			file_delete($filepath);
 			// put value of NULL in order not to obtain image
-			$file_fids['ios_icon'] = NULL;
+			$file_fids['addtohome_ios_icon'] = NULL;
 			//turn the flag of delete to 0
-			$form_state['values']['delete_ios_icon']=0;
+			$form_state['values']['delete_addtohome_ios_icon'] = 0;
 
 
 		}
-		if($form_state['values']['delete_ios_ipad_icon']==1 && $file_fids['ios_ipad_icon']){
-			$filepath =  _get_file_path($file_fids['ios_ipad_icon'])->filepath;
+		if($form_state['values']['delete_addtohome_ios_ipad_icon'] == 1 && $file_fids['addtohome_ios_ipad_icon']){
+			$filepath =  _get_file_path($file_fids['addtohome_ios_ipad_icon'])->filepath;
 			file_delete($filepath);
-			$file_fids['ios_ipad_icon'] = NULL;
-			$form_state['values']['delete_ios_ipad_icon']=0;
+			$file_fids['addtohome_ios_ipad_icon'] = NULL;
+			$form_state['values']['delete_addtohome_ios_ipad_icon'] = 0;
 			
 
 		}
-		if($form_state['values']['delete_ios_ipad_retina']==1 && $file_fids['ios_ipad_retina']){
-			$filepath =  _get_file_path($file_fids['ios_ipad_retina'])->filepath;
+		if($form_state['values']['delete_addtohome_ios_ipad_retina'] == 1 && $file_fids['addtohome_ios_ipad_retina']){
+			$filepath =  _get_file_path($file_fids['addtohome_ios_ipad_retina'])->filepath;
 			file_delete($filepath);
-			$file_fids['ios_ipad_retina'] = NULL;
-			$form_state['values']['delete_ios_ipad_retina']=0;
+			$file_fids['addtohome_ios_ipad_retina'] = NULL;
+			$form_state['values']['delete_addtohome_ios_ipad_retina'] = 0;
 
 		}
-		if($form_state['values']['delete_ios_iphone_retina']==1 && $file_fids['ios_iphone_retina']){
-			$filepath =  _get_file_path($file_fids['ios_iphone_retina'])->filepath;
+		if($form_state['values']['delete_addtohome_ios_iphone_retina'] == 1 && $file_fids['addtohome_ios_iphone_retina']){
+			$filepath =  _get_file_path($file_fids['addtohome_ios_iphone_retina'])->filepath;
 			file_delete($filepath);
-			$file_fids['ios_iphone_retina'] = NULL;
-			$form_state['values']['delete_ios_iphone_retina']=0;
+			$file_fids['addtohome_ios_iphone_retina'] = NULL;
+			$form_state['values']['delete_addtohome_ios_iphone_retina'] = 0;
 
 		}
-		if($form_state['values']['delete_and_icon']==1 && $file_fids['and_icon']){
-			$filepath =  _get_file_path($file_fids['and_icon'])->filepath;
+		if($form_state['values']['delete_addtohome_andr_icon'] == 1 && $file_fids['addtohome_andr_icon']){
+			$filepath =  _get_file_path($file_fids['addtohome_andr_icon'])->filepath;
 			file_delete($filepath);
-			$file_fids['and_icon'] = NULL;
-			$form_state['values']['delete_and_icon']=0;
+			$file_fids['addtohome_andr_icon'] = NULL;
+			$form_state['values']['delete_addtohome_andr_icon'] = 0;
 
 		}
 
 
-
-
-		$cus_file = file_save_upload('ios_icon',array(),$dir);
-		if($cus_file){
-			file_set_status($cus_file, FILE_STATUS_PERMANENT);
-			drupal_write_record('files', $cus_file, 'fid');
-			if ($file_fids['ios_icon']) {
+		$current_file = file_save_upload('addtohome_ios_icon',array(),$dir);
+		if($current_file){
+			file_set_status($current_file, FILE_STATUS_PERMANENT);
+			
+			if ($file_fids['addtohome_ios_icon']) {
 				//delete file
-				$filepath =  _get_file_path($file_fids['ios_icon'])->filepath;
+				$filepath =  _get_file_path($file_fids['addtohome_ios_icon'])->filepath;
 				file_delete($filepath);
 			}
-			$file_fids['ios_icon'] = $cus_file->fid;
+			drupal_write_record('files', $current_file, 'fid');
+			$file_fids['addtohome_ios_icon'] = $current_file->fid;
 		}
 		
-		$cus_file = file_save_upload('ios_ipad_icon',array(),$dir);
-		if($cus_file){
-			file_set_status($cus_file, FILE_STATUS_PERMANENT);
-			drupal_write_record('files', $cus_file, 'fid');
-			if ($file_fids['ios_ipad_icon']) {
+		$current_file = file_save_upload('addtohome_ios_ipad_icon',array(),$dir);
+		if($current_file){
+			file_set_status($current_file, FILE_STATUS_PERMANENT);
+			drupal_write_record('files', $current_file, 'fid');
+			if ($file_fids['addtohome_ios_ipad_icon']) {
 				//delete file 
-				file_delete($cus_file->filepath);	
+				$filepath =  _get_file_path($file_fids['addtohome_ios_ipad_icon'])->filepath;
+				file_delete($filepath);	
 			}
-			$file_fids['ios_ipad_icon'] = $cus_file->fid;
+
+			$file_fids['addtohome_ios_ipad_icon'] = $current_file->fid;
 		}
 
-		$cus_file = file_save_upload('ios_ipad_retina',array(),$dir);
-		if($cus_file){
-			file_set_status($cus_file, FILE_STATUS_PERMANENT);
-			drupal_write_record('files', $cus_file, 'fid');
-			if ($file_fids['ios_ipad_retina']) {
+		$current_file = file_save_upload('addtohome_ios_ipad_retina',array(),$dir);
+		if($current_file){
+			file_set_status($current_file, FILE_STATUS_PERMANENT);
+			drupal_write_record('files', $current_file, 'fid');
+			if ($file_fids['addtohome_ios_ipad_retina']) {
 				//delete file 
-				file_delete($cus_file->filepath);	
+				$filepath =  _get_file_path($file_fids['addtohome_ios_ipad_retina'])->filepath;
+				file_delete($filepath);	
 			}
-			$file_fids['ios_ipad_retina'] = $cus_file->fid;
+			$file_fids['addtohome_ios_ipad_retina'] = $current_file->fid;
 		}
 
-		$cus_file = file_save_upload('ios_iphone_retina',array(),$dir);
-		if($cus_file){
-			file_set_status($cus_file, FILE_STATUS_PERMANENT);
-			drupal_write_record('files', $cus_file, 'fid');
-			if ($file_fids['ios_iphone_retina']) {
+		$current_file = file_save_upload('addtohome_ios_iphone_retina',array(),$dir);
+		if($current_file){
+			file_set_status($current_file, FILE_STATUS_PERMANENT);
+			drupal_write_record('files', $current_file, 'fid');
+			if ($file_fids['addtohome_ios_iphone_retina']) {
 				//delete file 
-				file_delete($cus_file->filepath);
+				$filepath =  _get_file_path($file_fids['addtohome_ios_iphone_retina'])->filepath;
+				file_delete($filepath);
 				
 			}
-			$file_fids['ios_iphone_retina'] = $cus_file->fid;
+			$file_fids['addtohome_ios_iphone_retina'] = $current_file->fid;
 		}
 
-		$cus_file = file_save_upload('and_icon',array(),$dir);
-		if($cus_file){
-			file_set_status($cus_file, FILE_STATUS_PERMANENT);
-			drupal_write_record('files', $cus_file, 'fid');
-			if ($file_fids['and_icon']) {
+		$current_file = file_save_upload('addtohome_andr_icon',array(),$dir);
+		if($current_file){
+			file_set_status($current_file, FILE_STATUS_PERMANENT);
+			drupal_write_record('files', $current_file, 'fid');
+			if ($file_fids['addtohome_andr_icon']) {
 				//delete file 
-				file_delete($cus_file->filepath);
+				$filepath =  _get_file_path($file_fids['addtohome_andr_icon'])->filepath;
+				file_delete($filepath);
 				
 			}
-			$file_fids['and_icon'] = $cus_file->fid;
+			$file_fids['addtohome_andr_icon'] = $current_file->fid;
 		} 
 	}
+	
+	variable_set('addtohome_icons', $file_fids); //FIXME
 
-	variable_set('mobilesupport_icons', $file_fids);
-
-	//validation
-	checkInt($form_state['values']['display_times'],'display_times');
-	checkPos($form_state['values']['display_times'],'display_times');
-
-	checkInt($form_state['values']['show_after'],'show_after');
-	checkPos($form_state['values']['show_after'],'show_after');
-
-	checkInt($form_state['values']['lifespan'],'lifespan');
-	checkPos($form_state['values']['lifespan'],'lifespan');
-
-	checkInt($form_state['values']['display_pace'],'display_pace');
-	checkPos($form_state['values']['display_pace'],'display_pace');
-
-	if(!valid_url($form_state['values']['andr_link'])){
-		form_set_error('andr_link' ,t("You have entered an incorrect link"));
+	if(!valid_url($form_state['values']['addtohome_andr_link'])){
+		form_set_error('addtohome_andr_link' ,t("You have entered an incorrect link"));
 	}
-
-	//clear strings
-	variable_set('app_name',check_plain($form_state['values']['app_name']));
-	variable_set('message',check_plain($form_state['values']['message']));
-	variable_set('andr_message',check_plain($form_state['values']['andr_message']));
 }
 
 
@@ -419,12 +422,21 @@ function addtohome_init(){
 	if(drupal_is_front_page()){
 		$path = drupal_get_path('module','addtohome');
 		//get path to images
-		$image_fids = variable_get('mobilesupport_icons',NULL);
+		$image_fids = variable_get('addtohome_icons',array( 
+	      'addtohome_ios_icon'          => NULL,
+	      'addtohome_ios_iphone_retina' => NULL,
+	      'addtohome_ios_ipad_icon'     => NULL,
+	      'addtohome_ios_ipad_retina'   => NULL,
+	      'addtohome_andr_icon'         => NULL,
+    	));
+
 		$image_paths = array();
-		if($image_fids){
+		//$array_files = _get_multiple_file_path($image_fids);
+		
+		if($image_fids){ 
 			foreach ($image_fids as $key => $val) {
 				if($val){
-					$res = _get_file_path($val);
+					$res = _get_file_path($val); 
 					$image_paths[$key] = $res->filepath;
 					
 				}else{
@@ -434,20 +446,21 @@ function addtohome_init(){
 		}
 		//create an array of settings to send it o js
 		$my_settings = array(
-			'app_name' => variable_get('app_name','Application'),
-			'display_times' => variable_get('display_times',0),
-			'actions' => (variable_get('actions',0)) ? TRUE : FALSE,
-			'second_time' => (variable_get('actions',0)) ? TRUE : FALSE,
-			'show_after' => variable_get('show_after',1),
-			'lifespan' => variable_get('lifespan',15),
-			'display_pace' => variable_get('display_pace',1440),
-			'message' => variable_get('message',t("You can add a bookmark to you home screen.")),
-			'detect' => (variable_get('detect',0)) ? TRUE : FALSE,
-			'andr_message' => variable_get('andr_message',t("Install our application from Android Play market")),
-			'andr_link' => variable_get('andr_link',"http://"),
-			'ios_icon' =>variable_get('ios_icon',""),
+			'addtohome_app_name' => variable_get('addtohome_app_name','Application'),
+			'addtohome_display_times' => variable_get('addtohome_display_times',0),
+			'addtohome_actions' => (variable_get('addtohome_actions',0)) ? TRUE : FALSE,
+			'addtohome_second_time' => (variable_get('addtohome_actions',0)) ? TRUE : FALSE,
+			'addtohome_show_after' => variable_get('addtohome_show_after',1),
+			'addtohome_lifespan' => variable_get('addtohome_lifespan',15),
+			'addtohome_display_pace' => variable_get('addtohome_display_pace',1440),
+			'addtohome_message' => variable_get('addtohome_message',t("You can add a bookmark to your home screen.")),
+			'addtohome_detect' => (variable_get('addtohome_detect',0)) ? TRUE : FALSE,
+			'addtohome_andr_message' => variable_get('addtohome_andr_message',t("Install our application from Google Play")),
+			'addtohome_andr_link' => variable_get('addtohome_andr_link',"http://"),
+			'addtohome_ios_icon' =>variable_get('addtohome_ios_icon',""),
 			'path'=>$path,
 			'image_paths' => $image_paths,
+			'addtohome_ios_use_msgbox'=>variable_get('addtohome_ios_use_msgbox',0),
 		);
 		
 		drupal_add_js(array('addToHome'=>$my_settings),'setting');
@@ -458,20 +471,37 @@ function addtohome_init(){
 	
 }
 
-function checkInt($x,$y){
-	if(!is_numeric($x)){
-		form_set_error($y ,t("You have entered not a integer"));
+function addtohome_check_num($element,&$form_state){
+	if(!is_numeric($element['#value'])){
+		form_set_error($element ,t("You have entered not a integer"));
+	}
+	if($element['#value'] < 0){
+		form_set_error($element ,t("You have entered negative number"));
 	}
 }
 
-function checkPos($x,$y){
-	if($x<0){
-		form_set_error($y ,t("You have entered negative number"));
-	}
-}
 
 function _get_file_path($fid){
+    //$paths = array();
 	$query = "SELECT fid, filename, filepath, filesize, filemime  FROM {files} WHERE fid = %d";
-	$result = db_query($query, $fid);
-	return db_fetch_object($result);
+	$result = db_query($query, $fid); 
+	$paths = db_fetch_object($result);
+	return $paths;
+}
+
+
+function _get_multiple_file_path($fids){
+    $paths = array();
+	$query = "	SELECT fid, filename, filepath, filesize, filemime  
+				FROM {files} WHERE fid IN ( ". db_placeholders(array_values($fids),'int') ." )";
+	$result = db_query($query,array_values($fids)); 
+	$keys = array_keys($fids);
+	$i=0;
+  	while ($row = db_fetch_object($result)) {
+    	//$paths[$row->fid][] = $row;
+    	//$paths[$row->fid][] = $keys[$i];
+    	$paths[$row->fid] = $row;
+  	}
+  	
+	return $paths;
 }
