@@ -25,11 +25,11 @@ msgstr ""
 
 #: addtohome.module:30 addtohome.info:0
 msgid "Add to home screen"
-msgstr ""
+msgstr "Добавить на рабочий стол"
 
 #: addtohome.module:49
 msgid "Name of application"
-msgstr ""
+msgstr "Имя приложения"
 
 #: addtohome.module:54
 msgid "The name of application which user will see by default, but will can to change (max 11 letters)"

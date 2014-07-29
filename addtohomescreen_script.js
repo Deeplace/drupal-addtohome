@@ -15,24 +15,65 @@
  *   addtohome_ios_icon -
  *   image_paths -
  *   path -
- *  ios_use_msgbox -
+ *   ios_use_msgbox -
+ *   addtohome_show_one_time 
  */
 Drupal.behaviors.addToHome = function(context){
   var settings = Drupal.settings.addToHome;
-  console.log(settings.image_paths);
+  //console.log(settings.image_paths);
   var isAndroid = /android/i.test(navigator.userAgent.toLowerCase()),
       isIOS = /iphone|ipad.*safari/i.test(navigator.userAgent.toLowerCase()),
       isStandAlone = (("standalone" in window.navigator) && !window.navigator.standalone) ? true : false; 
   
+
+  // varible which will tell if cookie showOnceCookie exists;
+  var showOnceCookie;
+  // choose period for 10 years
+  var d = new Date();
+  d.setTime(d.getTime() + (10*365*24*60*60*1000));
+  
+  
+  //showOnceCookie = document.cookie.indexOf("showOnceCookie");
+  if(document.cookie.indexOf("showOnceCookie") > -1) 
+    showOnceCookie = true;
+  else 
+    showOnceCookie = false;
+  
+
+  // Chose of administrator ( true, false)
+  var showOnce = settings.addtohome_show_one_time;
+      
+  /**
+  * If showOnce is true: 
+  *     If showOnceCookie true, then nothing display else display message and create cookie   
+  * Else 
+  *     If showOnceCookie true, then delete it. Display message
+  */
+  if(showOnce){
+    if(showOnceCookie) 
+      return;
+    //uncomment if show only one time without closing
+    //else{
+      //set cookie
+      //document.cookie = "showOnceCookie=true; expires=" + d.toGMTString() + " ;path=/";
+    //}
+  }else{
+    if(showOnceCookie){
+      //delete coockie
+      document.cookie = "showOnceCookie=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    }
+  }
+
+
   if(isAndroid){
     insertMes(settings.path, settings.addtohome_app_name, settings.addtohome_andr_message, settings.image_paths.addtohome_andr_icon, settings.andr_link);
   }else if(isIOS){
-    jQuery("head",context).append('<meta name="apple-mobile-web-app-title" content="'+settings.addtohome_app_name+'">');
-    addMeta(settings.image_paths.addtohome_ios_icon,'0');
-    addMeta(settings.image_paths.addtohome_ios_ipad_icon,'76');
-    addMeta(settings.image_paths.addtohome_ios_iphone_retina,'120');
-    addMeta(settings.image_paths.addtohome_ios_ipad_retina,'152');
-
+    // jQuery("head",context).append('<meta name="apple-mobile-web-app-title" content="'+settings.addtohome_app_name+'">');
+    // addMeta(settings.image_paths.addtohome_ios_icon,'0');
+    // addMeta(settings.image_paths.addtohome_ios_ipad_icon,'76');
+    // addMeta(settings.image_paths.addtohome_ios_iphone_retina,'120');
+    // addMeta(settings.image_paths.addtohome_ios_ipad_retina,'152');
+    
     if(settings.addtohome_ios_use_msgbox){
       if(isStandAlone){
         //detect if we are in full screen mode
@@ -105,6 +146,8 @@ Drupal.behaviors.addToHome = function(context){
         .css("background","url("+$imagePaths+") no-repeat center right");
     }
     jQuery('img.refuse-mobile',context).bind('click',function(){
+      //set cookie after closing
+      document.cookie = "showOnceCookie=true; expires=" + d.toGMTString() + " ;path=/";
       jQuery('div.mobile-suggest',context).hide();
     });
   }

@@ -28,11 +28,11 @@ msgid "Add to home screen"
 msgstr "Добавить на домашний экран"
 
 #: addtohome.module:49
-msgid "Name of application"
+msgid "Application name"
 msgstr "Имя приложения"
 
 #: addtohome.module:54
-msgid "The name of application which user will see by default, but will can to change (max 11 letters)"
+msgid "The name of application which user will see by default. It can be changed (max 11 letters)"
 msgstr "Имя приложения, которое пользователь увидит по умолчанию, но сможет поменять (макс 11 букв)"
 
 #: addtohome.module:59
@@ -40,28 +40,32 @@ msgid "IOS settings"
 msgstr "IOS настройки"
 
 #: addtohome.module:67
-msgid "absolute maximum number of times the message will be shown to the user"
-msgstr "Максимально число раз, которое пользователь сможет увидить сообщение"
+msgid "Absolute maximum number of times the message will be shown to the user"
+msgstr "Максимально число раз, которое пользователь сможет увидеть сообщение"
 
 #: addtohome.module:71
 msgid "0: no limit"
 msgstr "0: неограниченно"
 
-#: addtohome.module:77
-msgid "Forbid actions before user closes window"
-msgstr "Запретить действия, пока пользователь не закроет окно"
+#: addtohome.module:64
+msgid "Forbid actions"
+msgstr "Запрет действий"
+
+#: addtohome.module:69
+msgid "Forbid any actions before user closes window"
+msgstr "Запретить любые действия, пока пользователь не закроет окно"
 
 #: addtohome.module:84
-msgid "Doesn't show window first time, only second"
-msgstr "Не показывать окно в первый раз, только во второй"
+msgid "Show window on second page load"
+msgstr "Показывать окно во второй раз загрузки страницы"
 
 #: addtohome.module:86
 msgid "By default user sees window when enter the site first time"
 msgstr "По умолчанию пользователь видит окно, когда входит на сайт первый раз"
 
 #: addtohome.module:91
-msgid "Display the message after that many seconds from page load"
-msgstr "Пока сообщение через данное количество секунд"
+msgid "Delay before message will appear"
+msgstr "Пауза, после которой появится сообщение (сек) "
 
 #: addtohome.module:99
 msgid "How many seconds window lives if user doesn't close it"
@@ -76,11 +80,11 @@ msgid "0: display every time, default 24 hours"
 msgstr "0: показывать каждый раз, по умолчанию 24 часа"
 
 #: addtohome.module:116;227
-msgid "Message to appear"
-msgstr "Показанное сообщение"
+msgid "Message"
+msgstr "Сообщение"
 
 #: addtohome.module:117
-msgid "you can add a bookmark to you home screen"
+msgid "You can add a bookmark to you home screen"
 msgstr "Вы можете добавить закладку на рабочий стол"
 
 #: addtohome.module:120
@@ -116,16 +120,24 @@ msgid "Ipad retina"
 msgstr "Ipad retina иконка"
 
 #: addtohome.module:220
+msgid "Make analogous message for IOS as in Android"
+msgstr "Показывать аналогичное сообщение для IOS, как на Android"
+
+#: addtohome.module:220
+msgid "By default the tooltip points to a button of adding bookmark in IOS"
+msgstr "По умолчанию подкасказка указывает на кнопку добавления закладки"
+
+#: addtohome.module:228
 msgid "Android settings"
 msgstr "Android настройки"
 
 #: addtohome.module:228
-msgid "Install our application from Android Playmarket"
-msgstr "Установите наше приложение из Android Playmarket"
+msgid "Install our application from Google Play"
+msgstr "Установите наше приложение из Google Play"
 
 #: addtohome.module:234
-msgid "Link to Android Playmarket"
-msgstr "Ссылка на Android Playmarket"
+msgid "Link to Google Play"
+msgstr "Ссылка на Google Play"
 
 #: addtohome.module:269
 msgid "Module settings"
@@ -160,6 +172,22 @@ msgid "description"
 msgstr "Описание"
 
 #: addtohome.info:0
-msgid "Add some features to mobile version of site. Creates a tooltip for IOS Safari in order to add a bookmark on desktop and provides a link to Android application on Android"
-msgstr "Добавить некоторые свойства к мобильной версии сайта. Создать подсказку для IOS Safari для добавления закладки на рабочий стол и предоставить ссылку на Андроид приложения для телефонов на Андроид"
+msgid "Module creates a tooltip: for mobile bookmarks in IOS or with a link to Google Play in Android"
+msgstr "Модуль создаёт подсказку: для домашней закладки для IOS или с ссылкой на Google Play для Android"
 
+#: addtohome.module:249
+msgid "Show only one time if user closes the window"
+msgstr "Показать один раз, если пользователь закроет окно"
+
+
+#: addtohome.module:249
+msgid "Works only if user has cookies enabled"
+msgstr "Работает, только если куки включены"
+
+#: addtohome.module:286
+msgid "Add to home screen module"
+msgstr "Add to home screen модуль"
+
+#: addtohome.module:249
+msgid "Module creates a tooltip for mobile bookmarks"
+msgstr "Модуль создаёт подсказки для мобильных закладок"

@@ -1,4 +1,4 @@
 name = Add to home screen
-description = Add some features to mobile version of site. Creates a tooltip for IOS Safari in order to add a bookmark on desktop and provides a link to Android application on Android //fixme
+description = Module creates a tooltip: for mobile bookmarks in IOS or with a link to Google Play in Android
 core = 6.x
 version = 6.x-1.0

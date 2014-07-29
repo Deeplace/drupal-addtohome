@@ -37,7 +37,7 @@
 			'#size'           => 13,
 			'#weight'         => 1,
 			'#max_length'     => 11,
-			'#description'    => t('The name of application which user will see by default. It can be changed (max 11 letters)'), //FIXME gramatica
+			'#description'    => t('The name of application which user will see by default. It can be changed (max 11 letters)'), 
 			'#required'=>TRUE,
 		);
 		$form['addtohome_ios']=array(
@@ -104,7 +104,7 @@
 			$form['addtohome_ios']['addtohome_message'] = array(
 				'#type' 		=> 'textfield',
 				'#title'		=> t('Message'),
-				'#default_value'=> variable_get('addtohome_message',t('you can add a bookmark to you home screen')),
+				'#default_value'=> variable_get('addtohome_message',t('You can add a bookmark to you home screen')),
 				'#size'			=> 60,
 				'#max_length'	=> 60,
 				'#description' 	=> t('What will user see on this tooltip (max 60 letters)'),
@@ -217,7 +217,7 @@
 		$form['addtohome_ios_use_msgbox']=array(
 			'#type'    		=> 'checkbox',
 			'#weight'		=> 4,
-			'#title'		=> t('Make analogous message for addtohome_ios as in Android'),
+			'#title'		=> t('Make analogous message for IOS as in Android'),
 			'#default_value'=> variable_get('addtohome_ios_use_msgbox',0),
 			'#description' 	=> t('By default the tooltip points to a button of adding bookmark in IOS'),
 		);
@@ -243,6 +243,12 @@
 				'#size'			=> 60,
 				'#max_length'	=> 60,
 
+			);
+			$form['addtohome_android']['addtohome_show_one_time']=array(
+				'#type'    		=> 'checkbox',
+				'#title'		=> t('Show only one time if user closes the window'),
+				'#default_value'=> variable_get('addtohome_show_one_time',0),
+				'#description' 	=> t('Works only if user has cookies enabled.'),
 			);
 			$form['addtohome_android']['addtohome_andr_icon']=array( 
 				'#type' => 'file',
@@ -277,8 +283,8 @@
 function addtohome_menu(){
 	$items = array();
 	$items['admin/settings/addtohome'] = array(
-		'title' 			=> 'addToHome module', //fixme
-		'description' 		=> 'Module creates a tooltip for mobile bookmarks', //fixme
+		'title' 			=> 'Add to home screen module',
+		'description' 		=> 'Module creates a tooltip for mobile bookmarks', 
 		'page callback' 	=> 'drupal_get_form',
 		'page arguments' 	=> array('addtohome_admin'),
 		'access arguments' 	=> array('administer addtohome settings'), 
@@ -419,7 +425,7 @@ function addtohome_admin_validate($form, &$form_state){
 
 
 function addtohome_init(){
-	if(drupal_is_front_page()){
+	
 		$path = drupal_get_path('module','addtohome');
 		//get path to images
 		$image_fids = variable_get('addtohome_icons',array( 
@@ -434,33 +440,41 @@ function addtohome_init(){
 		//$array_files = _get_multiple_file_path($image_fids);
 		
 		if($image_fids){ 
-			foreach ($image_fids as $key => $val) {
-				if($val){
-					$res = _get_file_path($val); 
-					$image_paths[$key] = $res->filepath;
-					
-				}else{
-					$image_paths[$key] = NULL;
-				}
-			}
+			$image_paths = _get_multiple_file_path($image_fids);
 		}
+		
+		//adding meta tags for images 
+		//in drupal 7 drupal_add_html_head
+		drupal_set_html_head('<meta name="apple-mobile-web-app-title" content="'.variable_get('addtohome_app_name','Application').'">');
+		drupal_set_html_head(addMeta($image_paths['addtohome_ios_icon'],'0'));
+		drupal_set_html_head(addMeta($image_paths['addtohome_ios_ipad_icon'],'76'));
+		drupal_set_html_head(addMeta($image_paths['addtohome_ios_iphone_retina'],'120'));
+		drupal_set_html_head(addMeta($image_paths['addtohome_ios_ipad_retina'],'152'));
+		
+  		
+  		drupal_set_html_head('<meta name="apple-mobile-web-app-capable" content="yes" />');
+  		drupal_set_html_head('<meta name="mobile-web-app-capable" content="yes" />');
+				
+		
+	if(drupal_is_front_page()){	
 		//create an array of settings to send it o js
 		$my_settings = array(
-			'addtohome_app_name' => variable_get('addtohome_app_name','Application'),
-			'addtohome_display_times' => variable_get('addtohome_display_times',0),
-			'addtohome_actions' => (variable_get('addtohome_actions',0)) ? TRUE : FALSE,
-			'addtohome_second_time' => (variable_get('addtohome_actions',0)) ? TRUE : FALSE,
-			'addtohome_show_after' => variable_get('addtohome_show_after',1),
-			'addtohome_lifespan' => variable_get('addtohome_lifespan',15),
-			'addtohome_display_pace' => variable_get('addtohome_display_pace',1440),
-			'addtohome_message' => variable_get('addtohome_message',t("You can add a bookmark to your home screen.")),
-			'addtohome_detect' => (variable_get('addtohome_detect',0)) ? TRUE : FALSE,
-			'addtohome_andr_message' => variable_get('addtohome_andr_message',t("Install our application from Google Play")),
-			'addtohome_andr_link' => variable_get('addtohome_andr_link',"http://"),
-			'addtohome_ios_icon' =>variable_get('addtohome_ios_icon',""),
-			'path'=>$path,
-			'image_paths' => $image_paths,
-			'addtohome_ios_use_msgbox'=>variable_get('addtohome_ios_use_msgbox',0),
+			'addtohome_app_name' 		=> variable_get('addtohome_app_name','Application'),
+			'addtohome_display_times' 	=> variable_get('addtohome_display_times',0),
+			'addtohome_actions' 		=> (variable_get('addtohome_actions',0)) ? TRUE : FALSE,
+			'addtohome_second_time' 	=> (variable_get('addtohome_actions',0)) ? TRUE : FALSE,
+			'addtohome_show_after' 		=> variable_get('addtohome_show_after',1),
+			'addtohome_lifespan' 		=> variable_get('addtohome_lifespan',15),
+			'addtohome_display_pace' 	=> variable_get('addtohome_display_pace',1440),
+			'addtohome_message' 		=> variable_get('addtohome_message',t("You can add a bookmark to your home screen.")),
+			'addtohome_detect' 			=> (variable_get('addtohome_detect',0)) ? TRUE : FALSE,
+			'addtohome_andr_message' 	=> variable_get('addtohome_andr_message',t("Install our application from Google Play")),
+			'addtohome_andr_link' 		=> variable_get('addtohome_andr_link',"http://"),
+			'addtohome_ios_icon' 		=> variable_get('addtohome_ios_icon',""),
+			'path'						=> $path,
+			'image_paths' 				=> $image_paths,
+			'addtohome_ios_use_msgbox'	=> variable_get('addtohome_ios_use_msgbox',0),
+			'addtohome_show_one_time' 	=> (variable_get('addtohome_show_one_time',0)) ? TRUE : FALSE,
 		);
 		
 		drupal_add_js(array('addToHome'=>$my_settings),'setting');
@@ -482,7 +496,7 @@ function addtohome_check_num($element,&$form_state){
 
 
 function _get_file_path($fid){
-    //$paths = array();
+    $paths = array();
 	$query = "SELECT fid, filename, filepath, filesize, filemime  FROM {files} WHERE fid = %d";
 	$result = db_query($query, $fid); 
 	$paths = db_fetch_object($result);
@@ -492,16 +506,35 @@ function _get_file_path($fid){
 
 function _get_multiple_file_path($fids){
     $paths = array();
+    $paths_result = array();
 	$query = "	SELECT fid, filename, filepath, filesize, filemime  
 				FROM {files} WHERE fid IN ( ". db_placeholders(array_values($fids),'int') ." )";
 	$result = db_query($query,array_values($fids)); 
 	$keys = array_keys($fids);
-	$i=0;
+	
   	while ($row = db_fetch_object($result)) {
-    	//$paths[$row->fid][] = $row;
-    	//$paths[$row->fid][] = $keys[$i];
     	$paths[$row->fid] = $row;
+    	//$paths[$row->fid][] = array_keys($fids,$row->fid); 
   	}
-  	
-	return $paths;
+  	foreach ($fids as $key => $val) {
+  		if($val){
+  			$paths_result[$key] = $paths[$val]->filepath;
+  		}else{
+  			$paths_result[$key] = NULL;
+  		}
+  	}
+	return $paths_result;
+}
+
+function addMeta($x, $size){
+    $output = "";
+    if($x!=NULL){
+      	if($size!='0'){
+        	$output.= "<link rel='apple-touch-icon' sizes='{$size}x{$size}' href='{$GLOBALS['base_path']}{$x}'>";
+      	}else{
+        	$output.= "<link rel='apple-touch-icon' href='{$GLOBALS['base_path']}{$x}'>";
+      	}
+    }
+    
+    return $output;
 }
