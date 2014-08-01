@@ -68,6 +68,7 @@ Drupal.behaviors.addToHome = function(context){
   if(isAndroid){
     insertMes(settings.path, settings.addtohome_app_name, settings.addtohome_andr_message, settings.image_paths.addtohome_andr_icon, settings.andr_link);
   }else if(isIOS){
+    //uncomment if you want to add with js. Now, it is added in addtohome.module
     // jQuery("head",context).append('<meta name="apple-mobile-web-app-title" content="'+settings.addtohome_app_name+'">');
     // addMeta(settings.image_paths.addtohome_ios_icon,'0');
     // addMeta(settings.image_paths.addtohome_ios_ipad_icon,'76');
