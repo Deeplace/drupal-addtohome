@@ -237,7 +237,7 @@
 
 .mobile-suggest {
   background-color: #ffffff;
-  padding: 7px 0;
+  padding: 5px 0;
   text-align: center;
 }
 
@@ -260,7 +260,7 @@
 
 }
 .mobile-suggest .refuse-mobile-cont img{
-	margin: 14px 0 0;
+	margin: 16px 0 0;
 	max-width: 100%;
 	height: auto;
 	padding: 0 0 0 5px;
@@ -271,7 +271,7 @@
 }
 
 .mobile-suggest .mobile-suggest-text {
-  padding: 8px 85px 8px 45px;
+  padding: 10px 85px 10px 45px;
   text-align: left;
 }
 

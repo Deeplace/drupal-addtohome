@@ -144,7 +144,7 @@ Drupal.behaviors.addToHome = function(context){
     jQuery("body", context).prepend(msgMob);
     if($imagePaths != null){
       jQuery(".mobile-suggest .mobile-suggest-text",context)
-        .css("background","url("+$imagePaths+") no-repeat center right");
+        .css("background","url("+$imagePaths+") no-repeat 95% center").css("background-size","67px");
     }
     jQuery('img.refuse-mobile',context).bind('click',function(){
       //set cookie after closing
