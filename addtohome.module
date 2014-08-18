@@ -6,14 +6,14 @@
 		$output = '';
 		switch($path){
 			case "admin/help#addtohome":
-				$output = '<p>'.t("Create a too").'</p>'; //fixme
+				$output = '<p>'.t("Module creates a pop-up window in mobile version of site with a tooltip").'</p>'; 
 			break;
 		}
 		return $output;
 	}
 
 	/**
-		giving permissions
+	*	giving permissions
 	*/
 	function addtohome_perm(){
 		return array('administer addtohome settings'); 
@@ -40,6 +40,30 @@
 			'#description'    => t('The name of application which user will see by default. It can be changed (max 11 letters)'), 
 			'#required'=>TRUE,
 		);
+
+		$form['addtohome_ios_enable']=array(
+			'#type'    		=> 'checkbox',
+			'#weight'		=> 2,
+			'#title'		=> t('Enable IOS support'),
+			'#default_value'=> variable_get('addtohome_ios_enable',1),
+		);
+
+		$form['addtohome_android_enable']=array(
+			'#type'    		=> 'checkbox',
+			'#weight'		=> 2,
+			'#title'		=> t('Enable Android support'),
+			'#default_value'=> variable_get('addtohome_android_enable',1),
+		);
+
+		$form['addtohome_ios_use_msgbox']=array(
+			'#type'    		=> 'checkbox',
+			'#weight'		=> 4,
+			'#title'		=> t('Make analogous message for IOS as in Android'),
+			'#default_value'=> variable_get('addtohome_ios_use_msgbox',0),
+			'#description' 	=> t('By default the tooltip points to a button of adding bookmark in IOS'),
+		);
+
+
 		$form['addtohome_ios']=array(
 			'#type'      	=> 'fieldset',
 			'#title'	 	=> t('Ios settings'),
@@ -475,6 +499,8 @@ function addtohome_init(){
 			'image_paths' 				=> $image_paths,
 			'addtohome_ios_use_msgbox'	=> variable_get('addtohome_ios_use_msgbox',0),
 			'addtohome_show_one_time' 	=> (variable_get('addtohome_show_one_time',0)) ? TRUE : FALSE,
+			'addtohome_ios_enable'		=> (variable_get('addtohome_ios_enable',1)) ? TRUE : FALSE,
+			'addtohome_android_enable'	=> (variable_get('addtohome_android_enable',1)) ? TRUE : FALSE,
 		);
 		
 		drupal_add_js(array('addToHome'=>$my_settings),'setting');

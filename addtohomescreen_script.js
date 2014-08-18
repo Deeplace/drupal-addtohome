@@ -17,6 +17,8 @@
  *   path -
  *   ios_use_msgbox -
  *   addtohome_show_one_time 
+ *   addtohome_ios_enable    
+ *   addtohome_android_enable 
  */
 Drupal.behaviors.addToHome = function(context){
   var settings = Drupal.settings.addToHome;
@@ -25,7 +27,9 @@ Drupal.behaviors.addToHome = function(context){
       isIOS = /iphone|ipad.*safari/i.test(navigator.userAgent.toLowerCase()),
       isStandAlone = (("standalone" in window.navigator) && !window.navigator.standalone) ? true : false; 
   
-
+  var enableIOS = settings.addtohome_ios_enable,
+      enableAndroid = settings.addtohome_android_enable;
+      
   // varible which will tell if cookie showOnceCookie exists;
   var showOnceCookie;
   // choose period for 10 years
@@ -66,8 +70,10 @@ Drupal.behaviors.addToHome = function(context){
 
 
   if(isAndroid){
+    if(!enableAndroid) return;
     insertMes(settings.path, settings.addtohome_app_name, settings.addtohome_andr_message, settings.image_paths.addtohome_andr_icon, settings.andr_link);
   }else if(isIOS){
+    if(!enableIOS) return;
     //uncomment if you want to add with js. Now, it is added in addtohome.module
     // jQuery("head",context).append('<meta name="apple-mobile-web-app-title" content="'+settings.addtohome_app_name+'">');
     // addMeta(settings.image_paths.addtohome_ios_icon,'0');

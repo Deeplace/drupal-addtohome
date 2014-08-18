@@ -10,8 +10,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2014-07-18 15:46+0300\n"
-"PO-Revision-Date: 2014-07-18 15:46+0300\n"
+"POT-Creation-Date: 2014-08-18 12:15+0300\n"
+"PO-Revision-Date: 2014-08-18 12:15+0300\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Russian <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -19,175 +19,218 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=((((n%10)==1)&&((n%100)!=11))?(0):(((((n%10)>=2)&&((n%10)<=4))&&(((n%100)<10)||((n%100)>=20)))?(1):2));\n"
 
-#: addtohome.module:7
-msgid "Create some features related to mobile phones"
-msgstr "Создать некоторые преимущества связанные с мобильными телефонами"
+#: addtohome.module:9
+msgid "Module creates a pop-up window in mobile version of site with a tooltip"
+msgstr "Модуль создаёт всплывающее окно с подсказкой для мобильной версии сайта"
 
-#: addtohome.module:30 addtohome.info:0
-msgid "Add to home screen"
-msgstr "Добавить на домашний экран"
-
-#: addtohome.module:49
+#: addtohome.module:35
 msgid "Application name"
 msgstr "Имя приложения"
 
-#: addtohome.module:54
+#: addtohome.module:40
 msgid "The name of application which user will see by default. It can be changed (max 11 letters)"
-msgstr "Имя приложения, которое пользователь увидит по умолчанию, но сможет поменять (макс 11 букв)"
+msgstr ""
+"Имя приложения, которое пользователь "
+"увидит по умолчанию, но сможет "
+"поменять (макс 11 букв)"
 
-#: addtohome.module:59
-msgid "IOS settings"
-msgstr "IOS настройки"
+#: addtohome.module:47
+msgid "Enable IOS support"
+msgstr "Вклюить IOS поддержку"
 
-#: addtohome.module:67
+#: addtohome.module:54
+msgid "Enable Android support"
+msgstr "Вклюить Android поддержку"
+
+#: addtohome.module:61;244
+msgid "Make analogous message for IOS as in Android"
+msgstr ""
+"Показывать аналогичное сообщение для "
+"IOS, как на Android"
+
+#: addtohome.module:63;246
+msgid "By default the tooltip points to a button of adding bookmark in IOS"
+msgstr ""
+"По умолчанию подкасказка указывает на "
+"кнопку добавления закладки"
+
+#: addtohome.module:69
+msgid "Ios settings"
+msgstr "Настройки IOS"
+
+#: addtohome.module:77
 msgid "Absolute maximum number of times the message will be shown to the user"
-msgstr "Максимально число раз, которое пользователь сможет увидеть сообщение"
+msgstr ""
+"Максимально число раз, которое "
+"пользователь сможет увидеть "
+"сообщение"
 
-#: addtohome.module:71
+#: addtohome.module:82
 msgid "0: no limit"
 msgstr "0: неограниченно"
 
-#: addtohome.module:64
+#: addtohome.module:88
 msgid "Forbid actions"
 msgstr "Запрет действий"
 
-#: addtohome.module:69
+#: addtohome.module:90
 msgid "Forbid any actions before user closes window"
-msgstr "Запретить любые действия, пока пользователь не закроет окно"
+msgstr ""
+"Запретить любые действия, пока "
+"пользователь не закроет окно"
 
-#: addtohome.module:84
+#: addtohome.module:95
 msgid "Show window on second page load"
-msgstr "Показывать окно во второй раз загрузки страницы"
+msgstr ""
+"Показывать окно во второй раз "
+"загрузки страницы"
 
-#: addtohome.module:86
+#: addtohome.module:97
 msgid "By default user sees window when enter the site first time"
-msgstr "По умолчанию пользователь видит окно, когда входит на сайт первый раз"
+msgstr ""
+"По умолчанию пользователь видит окно, "
+"когда входит на сайт первый раз"
 
-#: addtohome.module:91
+#: addtohome.module:102
 msgid "Delay before message will appear"
-msgstr "Пауза, после которой появится сообщение (сек) "
-
-#: addtohome.module:99
-msgid "How many seconds window lives if user doesn't close it"
-msgstr "Сколько секунд данное окно будет видно, если пользователь его не закроент"
-
-#: addtohome.module:107
-msgid "Minutes before the message is shown again"
-msgstr "Сколько минут должно пройти, чтобы показать сообщение заново"
+msgstr ""
+"Пауза, после которой появится "
+"сообщение (сек) "
 
 #: addtohome.module:111
-msgid "0: display every time, default 24 hours"
-msgstr "0: показывать каждый раз, по умолчанию 24 часа"
+msgid "How many seconds window lives if user doesn't close it"
+msgstr ""
+"Сколько секунд данное окно будет "
+"видно, если пользователь его не "
+"закроент"
 
-#: addtohome.module:116;227
+#: addtohome.module:120
+msgid "Minutes before the message is shown again"
+msgstr ""
+"Сколько минут должно пройти, чтобы "
+"показать сообщение заново"
+
+#: addtohome.module:124
+msgid "0: display every time, default 24 hours"
+msgstr ""
+"0: показывать каждый раз, по умолчанию "
+"24 часа"
+
+#: addtohome.module:130
 msgid "Message"
 msgstr "Сообщение"
 
-#: addtohome.module:117
+#: addtohome.module:131
 msgid "You can add a bookmark to you home screen"
-msgstr "Вы можете добавить закладку на рабочий стол"
+msgstr ""
+"Вы можете добавить закладку на "
+"рабочий стол"
 
-#: addtohome.module:120
+#: addtohome.module:134
 msgid "What will user see on this tooltip (max 60 letters)"
-msgstr "Что пользователь увидит на этой подсказке (макс 60 букв)"
+msgstr ""
+"Что пользователь увидит на этой "
+"подсказке (макс 60 букв)"
 
-#: addtohome.module:127
+#: addtohome.module:141
+msgid "Detect bookmark on homescreen"
+msgstr ""
+
+#: addtohome.module:142
 msgid "Try to detect if the site has been added to the homescreen"
-msgstr "Попробовать определить, если сайт был добавлен на рабочий стол"
+msgstr ""
+"Попробовать определить, если сайт был "
+"добавлен на рабочий стол"
 
-#: addtohome.module:132;242
-msgid "An icon which user will see in message"
-msgstr "Иконка, которую пользователь увидит в сообщении"
+#: addtohome.module:147
+msgid "An icon which user will see in messag"
+msgstr ""
 
-#: addtohome.module:138;159;181;203;248
+#: addtohome.module:153;177;202;227;286
 msgid "Current icon"
 msgstr "Загруженная иконка"
 
-#: addtohome.module:142;163;185;211;256
+#: addtohome.module:160;184;209;235;297
 msgid "Delete this icon"
 msgstr "Удалить иконку"
 
-#: addtohome.module:152
+#: addtohome.module:170
 msgid "Ipad icon"
 msgstr "Ipad иконка"
 
-#: addtohome.module:174
-msgid "Iphone retina"
-msgstr "Iphone retina иконка"
+#: addtohome.module:195
+msgid "iPhone retina icon"
+msgstr "iPhone retina иконка"
 
-#: addtohome.module:196
+#: addtohome.module:220
 msgid "Ipad retina"
 msgstr "Ipad retina иконка"
 
-#: addtohome.module:220
-msgid "Make analogous message for IOS as in Android"
-msgstr "Показывать аналогичное сообщение для IOS, как на Android"
-
-#: addtohome.module:220
-msgid "By default the tooltip points to a button of adding bookmark in IOS"
-msgstr "По умолчанию подкасказка указывает на кнопку добавления закладки"
-
-#: addtohome.module:228
+#: addtohome.module:251
 msgid "Android settings"
 msgstr "Android настройки"
 
-#: addtohome.module:228
+#: addtohome.module:258
+msgid "Message to appear"
+msgstr "Показанное сообщение"
+
+#: addtohome.module:259;495
 msgid "Install our application from Google Play"
 msgstr "Установите наше приложение из Google Play"
 
-#: addtohome.module:234
+#: addtohome.module:265
 msgid "Link to Google Play"
 msgstr "Ссылка на Google Play"
 
-#: addtohome.module:269
-msgid "Module settings"
-msgstr "Настройки модуля"
+#: addtohome.module:273
+msgid "Show only one time if user closes the window"
+msgstr ""
+"Показать один раз, если пользователь "
+"закроет окно"
 
-#: addtohome.module:408
+#: addtohome.module:275
+msgid "Works only if user has cookies enabled."
+msgstr "Работает только, если у пользователя включены куки"
+
+#: addtohome.module:279
+msgid "An icon which user will see in message"
+msgstr ""
+"Иконка, которую пользователь увидит в "
+"сообщении"
+
+#: addtohome.module:446
 msgid "You have entered an incorrect link"
 msgstr "Вы ввели некоректную ссылку"
 
-#: addtohome.module:446
-msgid "You can add a bookmark to you home screen."
+#: addtohome.module:493
+msgid "You can add a bookmark to your home screen."
 msgstr "Вы можете добавить закладку на рабочий стол"
 
-#: addtohome.module:448
-msgid "Install our application from Android Play market"
-msgstr "Установите наше приложение из Android Playmarket"
-
-#: addtohome.module:465
+#: addtohome.module:516
 msgid "You have entered not a integer"
-msgstr "Вы ввыли не целое число"
+msgstr "Вы ввели не целое число"
 
-#: addtohome.module:471
+#: addtohome.module:519
 msgid "You have entered negative number"
 msgstr "Вы ввели негативное число"
 
-#: addtohome.module:16
-msgid "access addtohome content"
-msgstr "Доступ к содержимому addtohome"
+#: addtohome.module:19
+msgid "administer addtohome settings"
+msgstr ""
 
-#: addtohome.module:270
-msgid "description"
-msgstr "Описание"
+#: addtohome.module:310
+msgid "Add to home screen module"
+msgstr "Модуль add to home screen"
+
+#: addtohome.module:311
+msgid "Module creates a tooltip for mobile bookmarks"
+msgstr "Модуль создаёт подсказку для мобильной версии"
+
+#: addtohome.info:0
+msgid "Add to home screen"
+msgstr "Добавить на домашний экран"
 
 #: addtohome.info:0
 msgid "Module creates a tooltip: for mobile bookmarks in IOS or with a link to Google Play in Android"
-msgstr "Модуль создаёт подсказку: для домашней закладки для IOS или с ссылкой на Google Play для Android"
+msgstr "Модуль созадёт посказку: для мобильных закладок на IOS или для ссылку на Google Play для Android"
 
-#: addtohome.module:249
-msgid "Show only one time if user closes the window"
-msgstr "Показать один раз, если пользователь закроет окно"
-
-
-#: addtohome.module:249
-msgid "Works only if user has cookies enabled"
-msgstr "Работает, только если куки включены"
-
-#: addtohome.module:286
-msgid "Add to home screen module"
-msgstr "Add to home screen модуль"
-
-#: addtohome.module:249
-msgid "Module creates a tooltip for mobile bookmarks"
-msgstr "Модуль создаёт подсказки для мобильных закладок"
