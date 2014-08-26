@@ -46,7 +46,11 @@ Drupal.behaviors.addToHome = function(context){
 
   // Chose of administrator ( true, false)
   var showOnce = settings.addtohome_show_one_time;
-      
+
+  //for example you make application for android using phonegap.
+  //you can insert this paramater in order to determine in which mode is user:
+  //from mobile browser or from phonegap app. 
+  if(document.location.href.indexOf("?android=1") == -1) return;
   /**
   * If showOnce is true: 
   *     If showOnceCookie true, then nothing display else display message and create cookie   
