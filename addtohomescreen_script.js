@@ -22,7 +22,6 @@
  */
 Drupal.behaviors.addToHome = function(context){
   var settings = Drupal.settings.addToHome;
-  //console.log(settings.image_paths);
   var isAndroid = /android/i.test(navigator.userAgent.toLowerCase()),
       isIOS = /iphone|ipad.*safari/i.test(navigator.userAgent.toLowerCase()),
       isStandAlone = (("standalone" in window.navigator) && !window.navigator.standalone) ? true : false; 
@@ -75,7 +74,7 @@ Drupal.behaviors.addToHome = function(context){
 
   if(isAndroid){
     if(!enableAndroid) return;
-    insertMes(settings.path, settings.addtohome_app_name, settings.addtohome_andr_message, settings.image_paths.addtohome_andr_icon, settings.andr_link);
+    insertMes(settings.path, settings.addtohome_app_name, settings.addtohome_andr_message, settings.image_paths.addtohome_andr_icon, settings.addtohome_andr_link);
   }else if(isIOS){
     if(!enableIOS) return;
     //uncomment if you want to add with js. Now, it is added in addtohome.module
@@ -136,7 +135,7 @@ Drupal.behaviors.addToHome = function(context){
   var msgMob = '<div class="mobile-suggest">';
     msgMob+=    '<div class="mobile-suggest-input">';
     msgMob+=       '<div class="refuse-mobile-cont">'
-    msgMob+=          '<img class="refuse-mobile" src="'+$path+'/img/exit-mob-install.png" alt="" title=""/>';
+    msgMob+=          '<img class="refuse-mobile" src="'+$path+'/img/cross.png" alt="" title=""/>';
     msgMob+=        '</div>';
     msgMob+=       '<div class="mobile-suggest-text">';
     msgMob+=         '<h5>'+$addtohome_app_name+'</h5>';

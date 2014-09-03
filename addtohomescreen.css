@@ -257,13 +257,11 @@
 }
 .mobile-suggest .refuse-mobile-cont {
   float: left;
-
+  margin: 26px 0 0 16px;
 }
 .mobile-suggest .refuse-mobile-cont img{
-	margin: 16px 0 0;
-	max-width: 100%;
+	max-width: 13px;
 	height: auto;
-	padding: 0 0 0 5px;
 }
 .mobile-suggest .refuse-mobile {
   vertical-align: center;
@@ -277,5 +275,5 @@
 
 .mobile-suggest .mobile-suggest-text a{
 	color:#000000;
-	text-decoration: none;
+	text-decoration: underline;
 }
