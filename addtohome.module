@@ -256,7 +256,7 @@
 			$form['addtohome_android']['addtohome_andr_message']=array( //FIXME utilizeaza addtohome_android in loc de addtohome_andr
 				'#type' 		=> 'textfield',
 				'#title'		=> t("Message to appear"),
-				'#default_value'=> variable_get('addtohome_andr_message',t('Install our application from Google Play')), 
+				'#default_value'=> variable_get('addtohome_andr_message', 'Install our application from Google Play'),
 				'#size'			=> 60,
 				'#max_length'	=> 60,
 			);
@@ -490,9 +490,9 @@ function addtohome_init(){
 			'addtohome_show_after' 		=> variable_get('addtohome_show_after',1),
 			'addtohome_lifespan' 		=> variable_get('addtohome_lifespan',15),
 			'addtohome_display_pace' 	=> variable_get('addtohome_display_pace',1440),
-			'addtohome_message' 		=> variable_get('addtohome_message',t("You can add a bookmark to your home screen.")),
+			'addtohome_message' 		=> t(variable_get('addtohome_message', "You can add a bookmark to your home screen.")),
 			'addtohome_detect' 			=> (variable_get('addtohome_detect',0)) ? TRUE : FALSE,
-			'addtohome_andr_message' 	=> variable_get('addtohome_andr_message',t("Install our application from Google Play")),
+			'addtohome_andr_message' 	=> t(variable_get('addtohome_andr_message', "Install our application from Google Play")),
 			'addtohome_andr_link' 		=> variable_get('addtohome_andr_link',"http://"),
 			'addtohome_ios_icon' 		=> variable_get('addtohome_ios_icon',""),
 			'path'						=> $path,
