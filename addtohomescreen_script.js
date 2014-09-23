@@ -48,8 +48,14 @@ Drupal.behaviors.addToHome = function(context){
 
   //for example you make application for android using phonegap.
   //you can insert this paramater in order to determine in which mode is user:
-  //from mobile browser or from phonegap app. 
-  if(document.location.href.indexOf("?android=1") != -1) return;
+  //from mobile browser or from phonegap app.
+  if(document.cookie.indexOf("isAndroidApp") > -1){
+    return;
+  }
+  else if(document.location.href.indexOf("?android=1") != -1){
+    document.cookie = "isAndroidApp=true; expires=" + d.toGMTString() + " ;path=/";
+    return;
+  }
   /**
   * If showOnce is true: 
   *     If showOnceCookie true, then nothing display else display message and create cookie   
