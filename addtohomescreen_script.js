@@ -52,7 +52,7 @@ Drupal.behaviors.addToHome = function(context){
   if(document.cookie.indexOf("isAndroidApp") > -1){
     return;
   }
-  else if(document.location.href.indexOf("?android=1") != -1){
+  else if(document.location.href.indexOf("?android=") != -1){
     document.cookie = "isAndroidApp=true; expires=" + d.toGMTString() + " ;path=/";
     return;
   }
